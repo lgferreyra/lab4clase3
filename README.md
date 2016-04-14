@@ -1,2 +1,3 @@
-# lab4clase3
-Angular_PHP_ABM_Persona-ngrepeat
+# PHP_ABM_Persona
+ejemplo de alta, baja, modificación y listado 
+
