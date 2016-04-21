@@ -39,6 +39,8 @@ app.controller('controlMod', function($scope, $http, $stateParams) {
   console.log($stateParams);
   $scope.persona = {};
   $scope.persona.nombre = $stateParams.nombre;
+  $scope.persona.apellido = $stateParams.apellido;
+  $scope.persona.dni = $stateParams.dni;
 
 
 });
