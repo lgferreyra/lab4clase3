@@ -62,12 +62,15 @@ else{
 	$respuesta = json_decode($DatosPorPost);
 	var_dump($respuesta);
 
-	switch (isset($_GET['accion'])) {
+	switch (isset($respuesta->datos->accion)) {
 		case 'insertar':
 			Persona::InsertarPersona($respuesta->datos->persona);
 			break;
 		case 'borrar':
 			Persona::BorrarPersona($respuesta->datos->persona->id);
+			break;
+		case 'modificar':
+			Persona::ModificarPersona($respuesta->datos->persona);
 			break;
 		default:
 			# code...

@@ -1,12 +1,47 @@
 
-var app = angular.module('ABMangularPHP', []);
+var app = angular.module('ABMangularPHP', ['ui.router'])
+.config(
+function($stateProvider,$urlRouterProvider){
+  
+  $stateProvider
+  .state('menu',{
+    url:'/menu',
+    templateUrl:'menu.html',
+    controller:'controlMenu'
+  })
+  .state('alta',{
+    url:'/alta',
+    templateUrl:'formAlta.html',
+    controller:'controlAlta'
+  })
+  .state('grilla',{
+    url:'/grilla',
+    templateUrl:'formGrilla.html',
+    controller:'controlGrilla'
+  })
+  .state('modificar',{
+    url:'/modificar/{nombre}?:apellido:dni',
+    templateUrl:'formAlta.html',
+    controller:'controlMod'
+  });
+
+
+  $urlRouterProvider.otherwise('/menu');
+});
 
 
 app.controller('controlMenu', function($scope, $http) {
   $scope.DatoTest="**Menu**";
 });
 
+app.controller('controlMod', function($scope, $http, $stateParams) {
+  $scope.DatoTest="**Menu**";
+  console.log($stateParams);
+  $scope.persona = {};
+  $scope.persona.nombre = $stateParams.nombre;
 
+
+});
 app.controller('controlAlta', function($scope, $http) {
   $scope.DatoTest="**alta**";
 
@@ -71,15 +106,13 @@ app.controller('controlGrilla', function($scope, $http) {
  	 });
 
  	$scope.Borrar=function(persona){
-		console.log("borrar"+persona);
+    
+		console.log("borrar " + persona.nombre);
 
-
-
-$http.post("PHP/nexo.php",{datos:{accion :"borrar",persona: $scope.persona}})
- .then(function(respuesta) {       
+    $http.post("PHP/nexo.php",{datos:{accion :"borrar",persona: persona}})
+    .then(function(respuesta) {       
          //aca se ejetuca si retorno sin errores        
          console.log(respuesta.data);
-
     },function errorCallback(response) {        
         //aca se ejecuta cuando hay errores
         console.log( response);           
@@ -99,15 +132,15 @@ $http.post("PHP/nexo.php",{datos:{accion :"borrar",persona: $scope.persona}})
     });
 
 */
- 	}
+ 	};
 
 
 
 
- 	$scope.Modificar=function(id){
+ 	$scope.Modificar=function(persona){
  		
- 		console.log("Modificar"+id);
- 	}
+ 		console.log(persona.nombre);
+ 	};
 
 
 
