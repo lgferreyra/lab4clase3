@@ -1,5 +1,5 @@
 
-var app = angular.module('ABMangularPHP', ['ui.router'])
+var app = angular.module('ABMangularPHP', ['ui.router', 'angularFileUpload'])
 .config(
 function($stateProvider,$urlRouterProvider){
   
@@ -44,7 +44,7 @@ app.controller('controlMod', function($scope, $http, $stateParams) {
 
 
 });
-app.controller('controlAlta', function($scope, $http) {
+app.controller('controlAlta',  function($scope, $http, FileUploader) {
   $scope.DatoTest="**alta**";
 
 //inicio las variables
@@ -52,12 +52,25 @@ app.controller('controlAlta', function($scope, $http) {
   $scope.persona.nombre= "natalia" ;
   $scope.persona.dni= "12312312" ;
   $scope.persona.apellido= "natalia" ;
-  $scope.persona.foto="sinfoto";
-
+  $scope.persona.foto="pordefecto.png";
+  $scope.uploader = new FileUploader({url: 'PHP/upload.php'})
 
   $scope.Guardar=function(){
+    console.log($scope.uploader.queue[0]);
+
+    var name = $scope.uploader.queue[0].file.name;
+    var ext = name.slice(name.lastIndexOf(".") ,name.length);
+    console.log(ext);
+    $scope.uploader.queue[0].file.name = $scope.persona.dni + ext;
+    //$scope.uploader.queue[0].file.name = "lalala.jpeg";
+    //console.log($scope.uploader.queue[0].file.name);
+    $scope.persona.foto = $scope.uploader.queue[0].file.name;
+    console.log($scope.persona.foto);
+    console.log($scope.uploader.queue[0]);
 
 
+    dato = $scope.uploader.uploadAll();
+    console.log(dato);
   	console.log("persona a guardar:");
     console.log($scope.persona);
     $http.post('PHP/nexo.php', { datos: {accion :"insertar",persona:$scope.persona}})
@@ -88,6 +101,7 @@ app.controller('controlGrilla', function($scope, $http) {
     },function errorCallback(response) {
      		 $scope.ListadoPersonas= [];
      		console.log( response);
+       });    
      			/*
 
 					https://docs.angularjs.org/api/ng/service/$http
@@ -105,7 +119,7 @@ app.controller('controlGrilla', function($scope, $http) {
 						 transparently follow it, meaning that 
 						 the error callback will not be called for such responses.
  	 */
- 	 });
+
 
  	$scope.Borrar=function(persona){
     
@@ -120,6 +134,17 @@ app.controller('controlGrilla', function($scope, $http) {
         console.log( response);           
     });
 
+    $http.get('PHP/nexo.php', { params: {accion :"traer"}})
+  .then(function(respuesta) {       
+
+         $scope.ListadoPersonas = respuesta.data.listado;
+         console.log(respuesta.data);
+
+    },function errorCallback(response) {
+         $scope.ListadoPersonas= [];
+        console.log( response);
+       });
+  };
 /*
      $http.post('PHP/nexo.php', 
       headers: 'Content-Type': 'application/x-www-form-urlencoded',
@@ -134,7 +159,7 @@ app.controller('controlGrilla', function($scope, $http) {
     });
 
 */
- 	};
+ 	
 
 
 
