@@ -1,8 +1,15 @@
 
-var app = angular.module('ABMangularPHP', ['ui.router', 'angularFileUpload'])
+var app = angular.module('ABMangularPHP', ['ui.router', 'angularFileUpload', 'satellizer'])
 .config(
-function($stateProvider,$urlRouterProvider){
+function($stateProvider,$urlRouterProvider,$authProvider){
   
+
+$authProvider.loginUrl = '/Lab4/PHP/clases/autentificador.php';
+$authProvider.signupUrl = '/Lab4/PHP/clases/autentificador.php';
+$authProvider.tokenName = 'tokentest';
+$authProvider.tokenPrefix = 'abmPersona';
+$authProvider.authHeader = 'data';
+
   $stateProvider
   .state('menu',{
     url:'/menu',
@@ -30,8 +37,21 @@ function($stateProvider,$urlRouterProvider){
 });
 
 
-app.controller('controlMenu', function($scope, $http) {
+app.controller('controlMenu', function($scope, $http, $auth, $state) {
   $scope.DatoTest="**Menu**";
+  $auth.login({usuario: "pepito", clave:"666"}).then(
+    function(respuesta){
+      if($auth.isAuthenticated())
+      {
+        //$state.ho('menu');
+      }
+      else
+      {
+        //mostrar error del login
+      }
+    })
+  console.info($auth.isAuthenticated(), $auth.getPayload());
+  console.info($auth); 
 });
 
 app.controller('controlMod', function($scope, $http, $stateParams) {
