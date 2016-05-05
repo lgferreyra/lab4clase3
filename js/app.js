@@ -30,28 +30,40 @@ $authProvider.authHeader = 'data';
     url:'/modificar/{nombre}?:apellido:dni',
     templateUrl:'formAlta.html',
     controller:'controlMod'
+  })
+  .state('login',{
+    url:'/login',
+    templateUrl:'formLogin.html',
+    controller:'controlLogin'
   });
 
 
-  $urlRouterProvider.otherwise('/menu');
+  $urlRouterProvider.otherwise('/login');
 });
 
 
 app.controller('controlMenu', function($scope, $http, $auth, $state) {
   $scope.DatoTest="**Menu**";
-  $auth.login({usuario: "pepito", clave:"666"}).then(
+  
+});
+
+app.controller('controlLogin', function($scope, $auth, $state){
+  $scope.Loguear = function(){
+    $auth.login({usuario: $scope.user, clave: $scope.clave}).then(
     function(respuesta){
       if($auth.isAuthenticated())
       {
-        //$state.ho('menu');
+        //$state.go('menu');
+        console.info($auth.isAuthenticated(), $auth.getPayload());
+        console.info($auth); 
       }
       else
       {
         //mostrar error del login
       }
     })
-  console.info($auth.isAuthenticated(), $auth.getPayload());
-  console.info($auth); 
+    
+  };
 });
 
 app.controller('controlMod', function($scope, $http, $stateParams) {

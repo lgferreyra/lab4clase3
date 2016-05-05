@@ -1,0 +1,23 @@
+<div class="container">
+		<div class="page-header">
+			<center> <h1>Login {{DatoTest}}</h1>   </center>     
+		</div>
+		<div class="CajaInicio animated bounceInRight">
+			<h1> <!--?php echo $titulo; ?-->Ingrese sus datos </h1>
+
+			<form id="FormIngreso"  enctype="multipart/form-data" >
+				<input type="text" name="user" ng-model="user" placeholder="Nombre de usuario" value="" />
+				<span id="lblApellido" style="display:none;color:#FF0000;width:1%;float:right;font-size:80">*
+				</span>
+				<input type="password" name="clave" ng-model="clave" placeholder="Contraseña" value="" /> <span id="lblNombre" style="display:none;color:#FF0000;width:1%;float:right;font-size:80">*</span>
+
+
+				<a class="btn btn-info " name="loguear" ng-click="Loguear()" ><span class="glyphicon glyphicon-log-in">&nbsp;</span>Ingresar</a>
+					
+				<input type="hidden" value="" id="idParaModificar" name="agregar" />
+				<input type="hidden" value="" id="hdnAgregar" name="agregar" />
+		</div>
+
+			</form>
+		</div>
+	</div>

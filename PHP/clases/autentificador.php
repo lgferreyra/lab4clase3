@@ -4,6 +4,10 @@ include "BeforeValidException.php";
 include "SignatureInvalidException.php";
 include "ExpiredException.php";
 
+$DatosPorPost = file_get_contents("php://input");
+$respuesta = json_decode($DatosPorPost);
+
+
 $token = array(
 	"exp"=>time()+10000,
 	"id"=>666,
