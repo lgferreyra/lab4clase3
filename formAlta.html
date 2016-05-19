@@ -16,8 +16,8 @@
 				<span id="lblDni" style="display:none;color:#FF0000;width:1%;float:right;font-size:80">*</span>
 				
 
-				<img  src="fotos/pordefecto.png" class="fotoform" id="foto"/>
-				<input type="file" nv-file-select uploader="uploader"/>
+				<!--<img  src="fotos/pordefecto.png" class="fotoform" id="foto"/>-->
+				<input ng-show="!uploader.queue[0]" type="file" nv-file-select uploader="uploader"/>
 				<ul>
        				 <!-- Muestro los datos de los archivos a cargar -->
         			<li ng-repeat="item in uploader.queue">
@@ -32,9 +32,9 @@
 			            </button> -->
 
 			            <!-- boton cancel -->            
-			            <button type="button" class="btn btn-warning btn-xs" ng-click="item.cancel()" ng-disabled="!item.isUploading">
+			            <!--<button type="button" class="btn btn-warning btn-xs" ng-click="item.cancel()" ng-disabled="!item.isUploading">
 			             	<span class="glyphicon glyphicon-ban-circle"></span> Cancel
-			            </button>
+			            </button> -->
 
 			            <!-- boton remove -->
 			            <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">

@@ -27,7 +27,7 @@ $authProvider.authHeader = 'data';
     controller:'controlGrilla'
   })
   .state('modificar',{
-    url:'/modificar/{nombre}?:apellido:dni',
+    url:'/modificar/{nombre}?:apellido:dni:foto',
     templateUrl:'formAlta.html',
     controller:'controlMod'
   })
@@ -66,26 +66,49 @@ app.controller('controlLogin', function($scope, $auth, $state){
   };
 });
 
-app.controller('controlMod', function($scope, $http, $stateParams) {
+app.controller('controlMod', function($scope, $http, $stateParams, FileUploader, cargadoDeFoto) {
   $scope.DatoTest="**Menu**";
   console.log($stateParams);
   $scope.persona = {};
   $scope.persona.nombre = $stateParams.nombre;
   $scope.persona.apellido = $stateParams.apellido;
   $scope.persona.dni = $stateParams.dni;
+  $scope.persona.foto = $stateParams.foto;
 
-
+  $scope.uploader = new FileUploader({url: 'PHP/upload.php'});
+  cargadoDeFoto.CargarFoto($scope.persona.foto, $scope.uploader);
+  
 });
-app.controller('controlAlta',  function($scope, $http, FileUploader) {
+app.controller('controlAlta',  function($scope, $http, FileUploader, cargadoDeFoto) {
   $scope.DatoTest="**alta**";
 
 //inicio las variables
   $scope.persona={};
-  $scope.persona.nombre= "natalia" ;
+  /*$scope.persona.nombre= "natalia" ;
   $scope.persona.dni= "12312312" ;
   $scope.persona.apellido= "natalia" ;
-  $scope.persona.foto="pordefecto.png";
-  $scope.uploader = new FileUploader({url: 'PHP/upload.php'})
+  $scope.persona.foto="pordefecto.png";*/
+
+  $scope.uploader = new FileUploader({url: 'PHP/upload.php'});
+  
+  //$scope.CargarFoto($scope.persona.foto);
+ 
+  /*$scope.CargarFoto = function (nombrefoto) {
+    var direccion = "fotos/" + nombrefoto;
+    $http.get(direccion, {responseType:"blob"}).then(
+      function(respuesta){
+        var mimeType = respuesta.data.type;
+        var archivo = new File([respuesta.data], direccion, {type:mimeType});
+        var dummy = new FileUploader.FileItem($scope.uploader, {});
+        dummy._file = archivo;
+        dummy.file = {};
+        dummy.file = new File([respuesta.data], nombrefoto, {type:mimeType});
+        $scope.uploader.queue.push(dummy);
+      }
+      );
+  };*/
+
+  cargadoDeFoto.CargarFoto($scope.persona.foto, $scope.uploader);
 
   $scope.Guardar=function(){
     console.log($scope.uploader.queue[0]);
@@ -114,9 +137,6 @@ app.controller('controlAlta',  function($scope, $http, FileUploader) {
      		//aca se ejecuta cuando hay errores
      		console.log( response);     			
  	  });
-
-  
-
   }
 });
 
@@ -205,4 +225,22 @@ app.controller('controlGrilla', function($scope, $http) {
 
 
 
+});
+
+app.service('cargadoDeFoto', function($http, FileUploader){
+  
+  this.CargarFoto = function (nombreFoto, uploader) {
+    var direccion = "fotos/" + nombreFoto;
+    $http.get(direccion, {responseType:"blob"}).then(
+      function(respuesta){
+        var mimeType = respuesta.data.type;
+        var archivo = new File([respuesta.data], direccion, {type:mimeType});
+        var dummy = new FileUploader.FileItem(uploader, {});
+        dummy._file = archivo;
+        dummy.file = {};
+        dummy.file = new File([respuesta.data], nombreFoto, {type:mimeType});
+        uploader.queue.push(dummy);
+      }
+    );
+  }
 });
