@@ -3,6 +3,7 @@ include "JWT.php";
 include "BeforeValidException.php";
 include "SignatureInvalidException.php";
 include "ExpiredException.php";
+require_once"Usuarios.php";
 
 $DatosPorPost = file_get_contents("php://input");
 $respuesta = json_decode($DatosPorPost);
