@@ -48,7 +48,7 @@ update persona
 				WHERE id=pid$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `ModificarUsuario` (IN `pid` INT(18), IN `pusername` VARCHAR(50), IN `ppass` VARCHAR(50), IN `pnombre` VARCHAR(50), IN `papellido` VARCHAR(50), IN `pcategoria` VARCHAR(50), IN `pemail` VARCHAR(50))  NO SQL
-update persona 
+update usuario 
 				set username=pusername,
                 pass=ppass,
                 nombre=pnombre,

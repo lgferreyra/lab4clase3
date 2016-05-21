@@ -1,5 +1,5 @@
 <?php
-require_once"accesoDatos.php";
+require_once (__DIR__.'/AccesoDatos.php');
 class Persona
 {
 //--------------------------------------------------------------------------------//

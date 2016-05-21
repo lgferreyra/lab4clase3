@@ -1,5 +1,5 @@
 <?php 
-	require_once"Usuarios.php";
+	require (__DIR__.'/Usuarios.php');
 
 	$usuario = new Usuario();
 	$usuario->user="probando";
@@ -9,11 +9,11 @@
 	$usuario->email="probando";
 	$usuario->categoria="probando";
 
-	$otro=new Usuario("probando","probando");
-	$id=Usuario::BorrarUsuario($otro->id);
+	$id = Usuario::InsertarUsuario($usuario);
+	//$id = Usuario::InsertarUsuario($usuario);
 
 	$respuesta=array();
 	$respuesta['listado'] = Usuario::TraerTodosLosUsuarios();
 	$arrayjson=json_encode($respuesta);
-	echo $arrayjson, json_encode($otro), $id;
+	echo $arrayjson;
  ?>

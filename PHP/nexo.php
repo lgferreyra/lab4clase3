@@ -1,6 +1,6 @@
 <?php 
 
-include "clases/Personas.php";
+require_once (__DIR__.'/clases/Personas.php');
 // $_GET['accion'];
 
 if(isset($_GET['accion']))
